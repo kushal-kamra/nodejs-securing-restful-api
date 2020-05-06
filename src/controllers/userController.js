@@ -22,17 +22,24 @@ export const register = (req, res) => {
         if(err) {
             return res.status(400).send({ message: err });
         } else {
-            user.password = undefined;
+            user.hashPassword = undefined;
             return res.json(user);
         }
     });
 }
 
 export const login  = (req, res) => {
+
+    if (!req.body.email || !req.body.password) {
+        return res.status(401).json({
+            message: 'Authentication failed. username/password not provided'
+        });
+    }
+
     User.findOne({ email: req.body.email }, (err, user) => {
         if (err) throw err;
         if (!user) {
-            res.status(401).json({
+            return res.status(401).json({
                 message: 'Authentication failed. No user found!'
             })
         } else if (user) {
