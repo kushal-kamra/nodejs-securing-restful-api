@@ -36,7 +36,7 @@ const routes = (app) => {
     // delete request - delete specific contact
     .delete(loginRequired, deleteContact);
 
-    // registeration route
+    // registration route
     app.route('/auth/register')
         .post(register);
 
